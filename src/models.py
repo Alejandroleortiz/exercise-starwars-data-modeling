@@ -16,30 +16,33 @@ class User(Base):
     password = Column(String(120), nullable=False)
     name = Column(String(120), nullable=False)
     last_name = Column(String(120), nullable=False)
-    email = Column(String(120), unique=True, nullable=False)
+    email = Column(String(120), nullable=False)
     suscription_date = Column(String, nullable=False)
-
-class Favorite(Base):
-    __tablename__ = 'favorite'
-
-    id = Column(Integer, primary_key=True)
-    character_id = Column(Integer, ForeignKey('character.uid'))
-    planet_id = Column(Integer, ForeignKey('planet.uid'))
 
 class Character(Base):
     __tablename__ = 'character'
 
-    uid = Column(Integer, unique=True)
+    uid = Column(Integer, primary_key=True)
     name = Column(String(150), nullable=False)
     description = Column(String(200), nullable=False)
 
 class Planet(Base):
     __tablename__ = 'planet'
 
-    uid = Column(Integer, unique=True)
+    uid = Column(Integer, primary_key=True)
     name = Column(String(150), nullable=False)
     description = Column(String(200), nullable=False)
 
+class Favorite(Base):
+    __tablename__ = 'favorite'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    character_id = Column(Integer, ForeignKey('character.uid'))
+    planet_id = Column(Integer, ForeignKey('planet.uid'))
+    user = relationship(User)
+    character = relationship(Character)
+    planet = relationship(Planet)
 
 
     def to_dict(self):
