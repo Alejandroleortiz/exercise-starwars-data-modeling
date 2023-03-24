@@ -33,17 +33,23 @@ class Planet(Base):
     name = Column(String(150), nullable=False)
     description = Column(String(200), nullable=False)
 
-class Favorite(Base):
-    __tablename__ = 'favorite'
+class Favorite_character(Base):
+    __tablename__ = 'favorite_character'
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     character_id = Column(Integer, ForeignKey('character.uid'))
-    planet_id = Column(Integer, ForeignKey('planet.uid'))
     user = relationship(User)
     character = relationship(Character)
-    planet = relationship(Planet)
 
+class Favorite_planet(Base):
+    __tablename__ = 'favorite_planet'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    planet_id = Column(Integer, ForeignKey('planet.uid'))
+    user = relationship(User)
+    planet = relationship(Planet)
 
     def to_dict(self):
         return {}
